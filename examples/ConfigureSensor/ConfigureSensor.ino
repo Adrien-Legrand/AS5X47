@@ -14,7 +14,7 @@
   AS5X47         Arduino Board
     5V <-------------> 5V
    GND <-------------> GND
-  MOSI <-------------> MISO (Pin 11 for Arduino Uno)
+  MOSI <-------------> MOSI (Pin 11 for Arduino Uno)
   MISO <-------------> MISO (Pin 12 for Arduino Uno)
    SCK <-------------> SCK  (Pin 13 for Arduino Uno)
    CSN <-------------> SS   Arbitrary, Pin 10 in this example.
