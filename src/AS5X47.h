@@ -202,7 +202,7 @@ class AS5X47 {
     float readAngle();
     void writeSettings1(Settings1 values);
     void writeSettings2(Settings2 values);
-    void writeZeroPosition(Zposm zposm, Zposl zposl);
+    void writeZeroPosition();
     void printDebugString();
 
   private:
