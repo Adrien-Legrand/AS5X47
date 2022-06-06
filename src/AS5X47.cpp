@@ -77,12 +77,16 @@ void AS5X47::writeSettings1(Settings1 values) {
 void AS5X47::writeSettings2(Settings2 values){
 	writeRegister(SETTINGS2_REG, values.raw);
 }
+
 void AS5X47::writeZeroPosition(){
 	ReadDataFrame readDataFrame;
-  	readDataFrame = as5047p.readRegister(ANGLE_REG);
+  	readDataFrame = readRegister(ANGLE_REG);
 	Angle angle;
 	angle.raw = readDataFrame.values.data;
 	
+	Zposm zposm;
+  	Zposl zposl;
+	  
   	zposm.values.zposm = ((angle.raw >> 6) & 0x00ff);
   	zposl.values.zposl = angle.raw & 0x003f;
 	writeRegister(ZPOSM_REG, zposm.raw);
