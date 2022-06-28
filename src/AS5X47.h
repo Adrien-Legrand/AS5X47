@@ -197,6 +197,7 @@ typedef union {
 class AS5X47 {
   public:
     AS5X47(uint8_t chipSelectPin);
+    void initSPI();
     ReadDataFrame readRegister(uint16_t registerAddress);
     void writeRegister(uint16_t registerAddress, uint16_t registerValue);
     float readAngle();
