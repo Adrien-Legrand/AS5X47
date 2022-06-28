@@ -33,6 +33,10 @@
 AS5X47::AS5X47(uint8_t chipSelectPin) : spi(chipSelectPin) {
 }
 
+void AS5X47::initSPI(){
+	spi.init();
+}
+
 ReadDataFrame AS5X47::readRegister(uint16_t registerAddress) {
 	CommandFrame command;
 	command.values.rw = READ;
