@@ -35,10 +35,11 @@ AS5X47Spi::AS5X47Spi(uint8_t _chipSelectPin) {
 	chipSelectPin = _chipSelectPin;
 	pinMode(chipSelectPin, OUTPUT);
 	digitalWrite(chipSelectPin, HIGH);
-	SPI.begin();
 }
 
-
+void AS5X47Spi::init() {
+	SPI.begin();
+}
 void AS5X47Spi::writeData(uint16_t command, uint16_t value) {
 	// @todo Expose the SPI Maximum Frequency in library interface.
 	SPI.beginTransaction(SPISettings(100000, MSBFIRST, SPI_MODE1));
