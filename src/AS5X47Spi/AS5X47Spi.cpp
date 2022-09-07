@@ -47,14 +47,15 @@ void AS5X47Spi::writeData(uint16_t command, uint16_t value) {
 	digitalWrite(chipSelectPin, LOW);
 	SPI.transfer16(command);
 	digitalWrite(chipSelectPin, HIGH);
-	delayMicroseconds(1);
+	// delayMicroseconds(1);
+	delay(10);
 	// Read data
 	digitalWrite(chipSelectPin, LOW);
 	SPI.transfer16(value);
 	digitalWrite(chipSelectPin, HIGH);
 	SPI.endTransaction();
-	delayMicroseconds(1);
-
+	// delayMicroseconds(1);
+	delay(10);
 }
 
 uint16_t AS5X47Spi::readData(uint16_t command, uint16_t nopCommand) {
