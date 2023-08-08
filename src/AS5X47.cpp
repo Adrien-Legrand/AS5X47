@@ -97,6 +97,15 @@ void AS5X47::writeZeroPosition(){
 	writeRegister(ZPOSL_REG, zposl.raw);
 }
 
+void AS5X47::writeDirection(uint8_t dir_){
+	ReadDataFrame readDataFrame;
+	readDataFrame = readRegister(SETTINGS1_REG);
+	Settings1 settings1DIR;
+	settings1DIR.raw = readDataFrame.values.data;
+	settings1DIR.values.dir = dir_;
+	writeSettings1(settings1DIR);
+}
+
 void AS5X47::printDebugString() {
 	ReadDataFrame readDataFrame;
 	readDataFrame = readRegister(ERRFL_REG);

@@ -205,7 +205,8 @@ class AS5X47 {
     void writeSettings2(Settings2 values);
     void writeZeroPosition();
     void printDebugString();
-
+    void writeDirection(uint8_t dir_);
+    
   private:
     bool isEven(uint16_t data);
     AS5X47Spi spi;
