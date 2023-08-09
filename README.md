@@ -18,6 +18,7 @@ This library has been tested with the following encoders:
  - [x] Read and Write operations for all registers
  - [x] Abstraction of angle measure
  - [x] Debug string to read the state of all registers at once
+ - [x] One Time Programation (OTP) Example
  - [ ] One Time Programation (OTP) Abstraction
 
 Please let me know if you tested it with other encoders.
@@ -35,7 +36,8 @@ Two examples are provided within the library :
 
  - **ReadAngle.ino**  shows how to connect the sensor and how to read the measured angle.
  - **ConfigureSensor.ino** shows how to use advanced features of this library in order to manipulate the encoder registers according to the manufacturer datasheet. 
- 
+ - **ConfigureSensorOTP.ino** shows how to permanently write a custom configuration using One Time Programation (OTP).
+
 ### Wiring
 The encoder board must be connected to the SPI Pins of the Arduino Board. In the case of an Arduino Uno, connect as following:
 ![AS5X47 encoder connection](extras/images/wiring.jpg?raw=true "Wiring with an Arduino Uno")
