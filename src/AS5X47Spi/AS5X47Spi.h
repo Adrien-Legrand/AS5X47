@@ -46,6 +46,7 @@ class AS5X47Spi {
   public:
 
     AS5X47Spi(uint8_t chipSelectPin);
+    void init();
     void writeData(uint16_t command, uint16_t value);
     uint16_t readData(uint16_t command, uint16_t nopCommand);
 

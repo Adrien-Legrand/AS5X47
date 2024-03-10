@@ -33,6 +33,10 @@
 AS5X47::AS5X47(uint8_t chipSelectPin) : spi(chipSelectPin) {
 }
 
+void AS5X47::initSPI(){
+	spi.init();
+}
+
 ReadDataFrame AS5X47::readRegister(uint16_t registerAddress) {
 	CommandFrame command;
 	command.values.rw = READ;
@@ -77,9 +81,29 @@ void AS5X47::writeSettings1(Settings1 values) {
 void AS5X47::writeSettings2(Settings2 values){
 	writeRegister(SETTINGS2_REG, values.raw);
 }
-void AS5X47::writeZeroPosition(Zposm zposm, Zposl zposl){
+
+void AS5X47::writeZeroPosition(){
+	ReadDataFrame readDataFrame;
+  	readDataFrame = readRegister(ANGLE_REG);
+	Angle angle;
+	angle.raw = readDataFrame.values.data;
+	
+	Zposm zposm;
+  	Zposl zposl;
+	  
+  	zposm.values.zposm = ((angle.raw >> 6) & 0x00ff);
+  	zposl.values.zposl = angle.raw & 0x003f;
 	writeRegister(ZPOSM_REG, zposm.raw);
 	writeRegister(ZPOSL_REG, zposl.raw);
+}
+
+void AS5X47::writeDirection(uint8_t dir_){
+	ReadDataFrame readDataFrame;
+	readDataFrame = readRegister(SETTINGS1_REG);
+	Settings1 settings1DIR;
+	settings1DIR.raw = readDataFrame.values.data;
+	settings1DIR.values.dir = dir_;
+	writeSettings1(settings1DIR);
 }
 
 void AS5X47::printDebugString() {

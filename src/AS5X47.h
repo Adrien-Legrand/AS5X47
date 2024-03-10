@@ -197,14 +197,16 @@ typedef union {
 class AS5X47 {
   public:
     AS5X47(uint8_t chipSelectPin);
+    void initSPI();
     ReadDataFrame readRegister(uint16_t registerAddress);
     void writeRegister(uint16_t registerAddress, uint16_t registerValue);
     float readAngle();
     void writeSettings1(Settings1 values);
     void writeSettings2(Settings2 values);
-    void writeZeroPosition(Zposm zposm, Zposl zposl);
+    void writeZeroPosition();
     void printDebugString();
-
+    void writeDirection(uint8_t dir_);
+    
   private:
     bool isEven(uint16_t data);
     AS5X47Spi spi;
