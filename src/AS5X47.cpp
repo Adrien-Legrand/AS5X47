@@ -30,7 +30,7 @@
 
 #include "AS5X47.h"
 
-AS5X47::AS5X47(uint8_t chipSelectPin) : spi(chipSelectPin) {
+AS5X47::AS5X47(uint8_t chipSelectPin, SPIClass* s) : spi(chipSelectPin, s) {
 }
 
 ReadDataFrame AS5X47::readRegister(uint16_t registerAddress) {
@@ -243,7 +243,7 @@ bool AS5X47::isEven(uint16_t data) {
 			count++;
 		}
 	}
-	
+
 	if (count%2==0) {
 		return false;
 

@@ -30,45 +30,51 @@
 
 #include "AS5X47Spi.h"
 
-AS5X47Spi::AS5X47Spi(uint8_t _chipSelectPin) {
+AS5X47Spi::AS5X47Spi(uint8_t chipSelectPin, SPIClass* s) {
 	// Initialize SPI Communication
-	chipSelectPin = _chipSelectPin;
-	pinMode(chipSelectPin, OUTPUT);
-	digitalWrite(chipSelectPin, HIGH);
-	SPI.begin();
-}
+	_chipSelectPin = chipSelectPin;
 
+	_spi_dev = new Adafruit_SPIDevice(chipSelectPin, 10000000, SPI_BITORDER_MSBFIRST,
+                                   SPI_MODE1, s);
+	_spi_dev->begin();
+}
 
 void AS5X47Spi::writeData(uint16_t command, uint16_t value) {
 	// @todo Expose the SPI Maximum Frequency in library interface.
-	SPI.beginTransaction(SPISettings(100000, MSBFIRST, SPI_MODE1));
+	_spi_dev->beginTransaction();
 	// Send command
-	digitalWrite(chipSelectPin, LOW);
-	SPI.transfer16(command);
-	digitalWrite(chipSelectPin, HIGH);
+	digitalWrite(_chipSelectPin, LOW);
+	_spi_dev->transfer((command >> 8) & 0xFF);
+	_spi_dev->transfer(command & 0xFF);
+	digitalWrite(_chipSelectPin, HIGH);
 	delayMicroseconds(1);
 	// Read data
-	digitalWrite(chipSelectPin, LOW);
-	SPI.transfer16(value);
-	digitalWrite(chipSelectPin, HIGH);
-	SPI.endTransaction();
+	digitalWrite(_chipSelectPin, LOW);
+	_spi_dev->transfer((value >> 8) & 0xFF);
+	_spi_dev->transfer(value & 0xFF);
+	digitalWrite(_chipSelectPin, HIGH);
+	_spi_dev->endTransaction();
 	delayMicroseconds(1);
 
 }
 
 uint16_t AS5X47Spi::readData(uint16_t command, uint16_t nopCommand) {
-	SPI.beginTransaction(SPISettings(100000, MSBFIRST, SPI_MODE1));
+	_spi_dev->beginTransaction();
 
 	// Send Read Command
-	digitalWrite(chipSelectPin, LOW);
-	SPI.transfer16(command);
-	digitalWrite(chipSelectPin, HIGH);
+	digitalWrite(_chipSelectPin, LOW);
+
+	_spi_dev->transfer((command >> 8) & 0xFF);
+	_spi_dev->transfer(command & 0xFF);
+	digitalWrite(_chipSelectPin, HIGH);
 	delayMicroseconds(1);
 	// Send Nop Command while receiving data
-	digitalWrite(chipSelectPin, LOW);
-	uint16_t receivedData = SPI.transfer16(nopCommand);
-	digitalWrite(chipSelectPin, HIGH);
-	SPI.endTransaction();
+	digitalWrite(_chipSelectPin, LOW);
+	uint16_t d0 = _spi_dev->transfer((nopCommand >> 8) & 0xFF);
+	uint16_t d1 = _spi_dev->transfer(nopCommand & 0xFF);
+	uint16_t receivedData = (d0 << 8) | d1;
+	digitalWrite(_chipSelectPin, HIGH);
+	_spi_dev->endTransaction();
 	delayMicroseconds(1);
 	return receivedData;
 }
