@@ -32,7 +32,7 @@
 #define AS5X47COMMUNICATION_h
 
 #include "Arduino.h"
-#include <SPI.h>
+#include "Adafruit_SPIDevice.h"
 
 /**
  * Implementation of a wrapper for SPI Communication.
@@ -45,12 +45,13 @@
 class AS5X47Spi {
   public:
 
-    AS5X47Spi(uint8_t chipSelectPin);
+    AS5X47Spi(uint8_t chipSelectPin, SPIClass* s);
     void writeData(uint16_t command, uint16_t value);
     uint16_t readData(uint16_t command, uint16_t nopCommand);
 
   private:
-    uint8_t chipSelectPin;
+    uint8_t _chipSelectPin;
+    Adafruit_SPIDevice* _spi_dev = NULL; ///< Pointer to SPI bus interface
 };
 
 
